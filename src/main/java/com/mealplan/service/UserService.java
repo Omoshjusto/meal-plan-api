@@ -8,8 +8,9 @@ import com.mealplan.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.UUID;
+
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -42,14 +43,14 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public Optional<UserDto> getUserById(UUID id) {
+    public Optional<UserDto> getUserDtoByIdOptional(UUID id) {
         return userRepository.findById(id).map(this::toDto);
     }
 
     public UserDto getUserDtoById(UUID id) {
-        User user = userRepository.findById(id)
+        return userRepository.findById(id)
+                .map(this::toDto)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        return toDto(user);
     }
 
     public User getUserById(UUID id) {
@@ -62,7 +63,7 @@ public class UserService {
     }
 
     public UserDto promoteToCreator(UUID userId) {
-        User user = getUserById(userId);
+        User user = getUserById(userId); // ✅ FIXED
         user.setRole(UserRole.CREATOR);
         User updated = userRepository.save(user);
         return toDto(updated);
