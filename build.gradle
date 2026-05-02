@@ -19,25 +19,34 @@ repositories {
 }
 
 dependencies {
+    // ✅ Spring Boot starters
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    // ✅ Database
     runtimeOnly 'org.postgresql:postgresql'
 
-    // ✅ Lombok (ONLY here)
+    // ✅ JWT (THIS FIXES YOUR ERRORS)
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
+    // ✅ Lombok (clean, no duplicates)
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
 
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-
+    // ✅ Dev tools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+    // ✅ Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
 }
